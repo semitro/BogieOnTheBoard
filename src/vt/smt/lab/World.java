@@ -21,12 +21,13 @@ public class World extends Thread{
     private Sprite fone;
     private Board board;
     private Bogie bogie;
+    static final float g = 9.81908f;
     private PhysicalEngine engine = new PhysicalEngine();
     public World(){
         super();
         window = new RenderWindow(new VideoMode(800,600),"BogieOnTheBoard", WindowStyle.CLOSE);
-        board = new Board(new Vector2f(20,20),800,10,15);
-        bogie = new Bogie(new Vector2f(292,20),60,10);
+        board = new Board(new Vector2f(20,500),400,10,(float) Math.toDegrees((float)Math.asin(1/78.0f)));
+        bogie = new Bogie(new Vector2f(20,50),60,10,(float) Math.toDegrees((float)Math.asin(1/78.0f)));
         try {
             Texture t = new Texture();
             t.loadFromFile(Paths.get("img/fone.jpg"));
@@ -60,8 +61,8 @@ public class World extends Thread{
             window.close();
     }
     private void update(float deltaTime){
-        engine.update(bogie,board,deltaTime);
-        bogie.update(deltaTime);
+       // engine.update(bogie,board,deltaTime);
+        bogie.update(deltaTime,board);
         board.update(deltaTime);
     }
     private void render(){

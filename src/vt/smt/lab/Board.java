@@ -15,9 +15,9 @@ import java.nio.file.Paths;
  */
 public class Board extends PhysicalObject {
     public Board(Vector2f position, int width, int height, float angle){
-        super(position, width, height);
-        sprite.setRotation(angle);
+        super(position, width, height,angle);
     }
+
 
     @Override
     protected void loadTextureImage(int width,int height){
