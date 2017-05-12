@@ -20,11 +20,15 @@ public class Bogie extends PhysicalObject{
     }
     float time = 0;
 
-    public void update(float deltaTime,Board board){
-        time += deltaTime;
-        double pos = PhysicalEngine.getPosition(this,board,time,0);
-        if (pos < 0.5) System.out.println(time);
+    public void reset(Vector2f position, float angle) {
+        time = 0;
+        sprite.setPosition(position);
+        sprite.setRotation(angle);
+    }
 
+    public void update(float currentTime, Board board){
+        time += currentTime;
+        double pos = PhysicalEngine.getPosition(this,board,time,0);
         sprite.setPosition(board.getSprite().getPosition().x - Transformer.PIXEL_IN_METR*(float)(pos* Math.sin(Math.toRadians(90 - (180 - sprite.getRotation())))),
                 board.getSprite().getPosition().y - board.getSprite().getTextureRect().height +
                         Transformer.PIXEL_IN_METR*(float)(pos* Math.cos(Math.toRadians(90 - (180 - sprite.getRotation()))))

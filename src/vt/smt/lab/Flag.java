@@ -26,15 +26,18 @@ public class Flag {
             System.out.println("Не загрузилась текстура флага из img/flag.png");
         }
         sprite = new Sprite(texutre);
-
+        setPosition(distanceM,board);
+        clock = new Timer(new Vector2f(sprite.getPosition().x - 55, sprite.getPosition().y - 30 ));
+    }
+    public void setPosition(float distanceM, Board board){
+        this.distanceM = distanceM;
         sprite.setRotation(board.getSprite().getRotation());
         sprite.setPosition(
                 board.getSprite().getPosition().x +
                         distanceM*Transformer.PIXEL_IN_METR*(float)Math.cos(Math.toRadians(sprite.getRotation())),
                 board.getSprite().getPosition().y - sprite.getGlobalBounds().height - 1 +
                         distanceM*Transformer.PIXEL_IN_METR*(float)Math.sin(Math.toRadians(sprite.getRotation()))
-                );
-        clock = new Timer(new Vector2f(sprite.getPosition().x - 55, sprite.getPosition().y - 30 ));
+        );
     }
     public void update(float currentTime){
         clock.update(currentTime);

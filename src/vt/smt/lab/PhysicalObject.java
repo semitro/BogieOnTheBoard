@@ -19,12 +19,13 @@ public abstract class PhysicalObject {
 
     //  Скорость вдоль направления
     protected double u = 0;
+    protected Vector2f startPosition;
     PhysicalObject(Vector2f position, int width, int height,float angle){
+        startPosition = position;
         loadTextureImage(width,height);
         this.sprite = new Sprite(texture,new IntRect(new Vector2i(0,0),new Vector2i(width,height)));
         this.sprite.setPosition(position);
         this.sprite.setRotation(angle);
-        System.out.println(sprite.getRotation());
     }
     public Sprite getSprite(){
         return sprite;
@@ -36,13 +37,11 @@ public abstract class PhysicalObject {
         return u;
     }
     public void update(float deltaTime){
-      //  sprite.rotate(0.01f);
+       // sprite.rotate(1.4f);
         sprite.setPosition(sprite.getPosition().x +(float)(deltaTime*u*Math.sin(Math.toDegrees(180 - sprite.getRotation())))*Transformer.PIXEL_IN_METR,
                 + sprite.getPosition().y + (float)(deltaTime*u*Math.cos(Math.toDegrees(180 - sprite.getRotation())))*Transformer.PIXEL_IN_METR );
-//        sprite.move((float)(deltaTime*u*Math.sin(Math.toDegrees(180 - sprite.getRotation())))*Transformer.PIXEL_IN_METR,
-//                (float)(deltaTime*u*Math.cos(Math.toDegrees(180 - sprite.getRotation())))*Transformer.PIXEL_IN_METR);
-
     }
+
     public void render(RenderWindow window){
         window.draw(sprite);
     }

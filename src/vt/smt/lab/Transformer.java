@@ -5,4 +5,5 @@ package vt.smt.lab;
  */
 public class Transformer {
     public static float PIXEL_IN_METR = 800;
+    public static float g = 9.812f;
 }

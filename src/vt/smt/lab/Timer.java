@@ -12,21 +12,16 @@ import java.nio.file.Paths;
 public class Timer {
     protected Text time;
     protected Font font;
-    protected Sprite sprite;
-    protected Texture texture;
     public Timer(Vector2f position){
-        loadTexture();
-       sprite = new Sprite(texture);
-       sprite.setPosition(position);
-        font = new Font();try {
+        font = new Font();
+        try {
             font.loadFromFile(Paths.get("img/font.ttf"));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("Шрифт в таймере не загрузился");
         }
         time = new Text("00:00", font);
-        time.setPosition(sprite.getPosition());
-       // time.set
+        time.setPosition(position);
         time.setScale(new Vector2f(2,2));
         time.setColor(Color.BLACK);
     }
@@ -47,14 +42,4 @@ public class Timer {
     public void stop(){
         wasStopped = true;
     }
-    protected void loadTexture(){
-        texture = new Texture();
-        try {
-            texture.loadFromFile(Paths.get("img/clock.png"));
-        }catch (IOException e){
-            e.printStackTrace();
-            System.out.println("Не удалось загрузить текстуру часов");
-        }
-    }
-
 }
