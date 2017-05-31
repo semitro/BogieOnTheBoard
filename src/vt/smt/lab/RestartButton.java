@@ -8,7 +8,7 @@ import org.jsfml.system.Vector2f;
 public class RestartButton extends vt.smt.lab.Button {
     private Restartable restarter;
     public RestartButton(Vector2f position, Restartable restarter){
-        super(position,"img/Restart.png");
+        super(position,"img/repeat.png");
         this.restarter = restarter;
         commitButton.addActionListener(e->restarter.restart());
     }

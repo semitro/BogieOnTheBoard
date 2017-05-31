@@ -1,14 +1,8 @@
 package vt.smt.lab;
 
-import org.jsfml.graphics.ConstTexture;
-import org.jsfml.graphics.IntRect;
-import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -30,17 +24,17 @@ public class Bogie extends PhysicalObject{
         time += currentTime;
         double pos = PhysicalEngine.getPosition(this,board,time,0);
         sprite.setPosition(board.getSprite().getPosition().x - Transformer.PIXEL_IN_METR*(float)(pos* Math.sin(Math.toRadians(90 - (180 - sprite.getRotation())))),
-                board.getSprite().getPosition().y - board.getSprite().getTextureRect().height +
-                        Transformer.PIXEL_IN_METR*(float)(pos* Math.cos(Math.toRadians(90 - (180 - sprite.getRotation()))))
+                board.getSprite().getPosition().y // fix me!
+                 // Transformer.PIXEL_IN_METR*(float)(pos* Math.cos(Math.toRadians(90 - (180 - sprite.getRotation()))))
                 );
     }
     @Override
     protected void loadTextureImage(int width,int height){
         try {
-            texture.loadFromFile(Paths.get("img/bogie.jpg"));
+            texture.loadFromFile(Paths.get("img/car.jpg"));
         }catch (IOException e){
             e.printStackTrace();
-            System.out.println("Не удалось создать Bogie");
+            System.out.println("Тележка не создана");
         }
     }
 }

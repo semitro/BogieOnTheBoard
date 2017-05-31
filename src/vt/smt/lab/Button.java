@@ -2,17 +2,12 @@ package vt.smt.lab;
 
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.Text;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 /**
  * Created by semitro on 11.05.17.
@@ -35,8 +30,16 @@ public abstract class Button {
         frame.add(dataTextArea);
         commitButton = new JButton("Применить");
         frame.add(commitButton);
-
+        dataTextArea.setBackground(Color.GRAY);
+        dataTextArea.setTabSize(10);
+        dataTextArea.setForeground(Color.white);
+        commitButton.setBackground(Color.DARK_GRAY);
+        commitButton.setForeground(Color.lightGray);
         commitButton.setVisible(true);
+        frame.setSize(new Dimension(4200,120));
+        commitButton.setPreferredSize(new Dimension(420,32));
+        frame.setLayout(new GridLayout(2,1));
+        frame.pack();
         texture = new Texture();
         try {
             texture.loadFromFile(Paths.get(pathToTexture));
