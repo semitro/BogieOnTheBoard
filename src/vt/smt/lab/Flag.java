@@ -27,7 +27,7 @@ public class Flag {
         }
         sprite = new Sprite(texutre);
         setPosition(distanceM,board);
-        clock = new Timer(new Vector2f(sprite.getPosition().x - 55, sprite.getPosition().y - 30 ));
+        clock = new Timer(new Vector2f(sprite.getPosition().x - 55, sprite.getPosition().y - 70 ));
     }
     public void setPosition(float distanceM, Board board){
         this.distanceM = distanceM;
@@ -41,6 +41,11 @@ public class Flag {
     }
     public void update(float currentTime){
         clock.update(currentTime);
+//        sprite.rotate(2f);
+       
+    }
+    public String getTime(){
+    	return clock.getTime();
     }
     public void render(RenderWindow window){
         clock.draw(window);

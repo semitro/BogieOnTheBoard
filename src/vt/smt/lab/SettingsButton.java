@@ -3,6 +3,7 @@ package vt.smt.lab;
 import javafx.scene.control.*;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Vector2f;
+import org.jsfml.window.Mouse;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
@@ -29,6 +30,8 @@ public class SettingsButton extends vt.smt.lab.Button {
 
     public void call(){
         frame.setTitle("Позиция правого флажка");
+        frame.setLocation(Mouse.getPosition().x, Mouse.getPosition().y);
+        frame.toFront();
         dataTextArea.setText(Float.toString(flag.getFlagDistance()));
         commitButton.addActionListener(e->{
             try {

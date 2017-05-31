@@ -27,7 +27,8 @@ public abstract class Button {
     public Button(Vector2f position, String pathToTexture){
         frame = new JFrame("Настроечки");
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setLayout(new GridLayout(2,1));
+        frame.setLayout(new GridLayout(1,3));
+        
         frame.setSize(new Dimension(200,92));
         dataTextArea = new JTextArea();
         dataTextArea.setVisible(true);
@@ -48,6 +49,7 @@ public abstract class Button {
     }
     public abstract void call();
     public Sprite getSprite(){
+    	//sprite.rotate((float)Math.random()*92.18281828459045235360f);
         return sprite;
     }
     public void render(RenderWindow w){

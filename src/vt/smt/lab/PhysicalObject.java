@@ -37,7 +37,7 @@ public abstract class PhysicalObject {
         return u;
     }
     public void update(float deltaTime){
-       // sprite.rotate(1.4f);
+//        sprite.rotate(1.4f);
         sprite.setPosition(sprite.getPosition().x +(float)(deltaTime*u*Math.sin(Math.toDegrees(180 - sprite.getRotation())))*Transformer.PIXEL_IN_METR,
                 + sprite.getPosition().y + (float)(deltaTime*u*Math.cos(Math.toDegrees(180 - sprite.getRotation())))*Transformer.PIXEL_IN_METR );
     }

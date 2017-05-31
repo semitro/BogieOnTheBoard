@@ -26,6 +26,9 @@ public class Timer {
         time.setColor(Color.BLACK);
     }
 
+    public String getTime(){
+    	return time.getString();
+    }
     public void draw(RenderWindow window){
 //        window.draw(sprite);
         window.draw(time);
@@ -34,10 +37,15 @@ public class Timer {
     public void update(float currentTime){
         if(wasStopped)
             return;
+        try{
         time.setString(getTimeView(currentTime));
+       // time.move(new Vector2f(0.01f,-0.1f));
+        }catch(Exception e){
+        	//e.printStackTrace();
+        }
     }
     protected String getTimeView(float time){
-        return new String(Float.toString(time/1000f));
+        return (String) (Float.toString(time)).subSequence(0, 5);
     }
     public void stop(){
         wasStopped = true;
