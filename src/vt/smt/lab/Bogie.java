@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 public class Bogie extends PhysicalObject{
     public Bogie(Vector2f position, int width, int height,float angle){
         super(position, width, height,angle);
+        sprite.setOrigin(0,sprite.getGlobalBounds().height);
     }
     float time = 0;
 
@@ -23,9 +24,12 @@ public class Bogie extends PhysicalObject{
     public void update(float currentTime, Board board){
         time += currentTime;
         double pos = PhysicalEngine.getPosition(this,board,time,0);
-        sprite.setPosition(board.getSprite().getPosition().x - Transformer.PIXEL_IN_METR*(float)(pos* Math.sin(Math.toRadians(90 - (180 - sprite.getRotation())))),
-                board.getSprite().getPosition().y // fix me!
-                 // Transformer.PIXEL_IN_METR*(float)(pos* Math.cos(Math.toRadians(90 - (180 - sprite.getRotation()))))
+        sprite.setPosition(board.getSprite().getPosition().x - Transformer.PIXEL_IN_METR*(float)(pos* Math.sin(Math.toRadians(90 - (180 - sprite.getRotation()))))
+                + (float)Math.cos(Math.toRadians(sprite.getRotation()))*sprite.getGlobalBounds().height,
+
+                board.getSprite().getPosition().y
+                 + Transformer.PIXEL_IN_METR*(float)(pos* Math.cos(Math.toRadians(90 - (180 - sprite.getRotation()))))
+                + (float)Math.sin(Math.toRadians(sprite.getRotation()))*sprite.getGlobalBounds().height + 1
                 );
     }
     @Override

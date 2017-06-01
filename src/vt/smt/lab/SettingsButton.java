@@ -3,11 +3,7 @@ package vt.smt.lab;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Mouse;
 
-import java.awt.*;
 
-/**
- * Created by semitro on 11.05.17.
- */
 public class SettingsButton extends vt.smt.lab.Button {
     private Bogie bogie;
     public SettingsButton(Vector2f position, Bogie bogie){
@@ -18,8 +14,6 @@ public class SettingsButton extends vt.smt.lab.Button {
         frame.setTitle("Введите массу тележки (в кг)");
 
     }
-
-
 
     public void call(){
         dataTextArea.setText(Float.toString(bogie.getWeight()));

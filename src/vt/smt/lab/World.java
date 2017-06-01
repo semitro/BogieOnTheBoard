@@ -34,7 +34,7 @@ public class World implements RightFlagOwner, Restartable{
     private SaveResultButton saveButton;
     public World(){
         window = new RenderWindow(new VideoMode(900,500),"Качение тележки с учётом трения");
-        board = new Board(new Vector2f(0,270),980,550,(float)Math.toDegrees(Math.asin(1/66.0)));
+        board = new Board(new Vector2f(0,270),980,80,(float)Math.toDegrees(Math.asin(1/66.0)));
         bogie = new Bogie(new Vector2f(15,50),100,40,(float)Math.toDegrees(Math.asin(1/66.0)));
         // Позиция доски там адекватно устанавливается
         this.restart();

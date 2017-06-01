@@ -3,9 +3,7 @@ package vt.smt.lab;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Mouse;
 
-/**
- * Created by semitro on 01.06.17.
- */
+
 public class AngleButton extends vt.smt.lab.Button {
     private PhysicalObject angleOwner;
     public AngleButton(Vector2f pos,PhysicalObject angleOwner){
