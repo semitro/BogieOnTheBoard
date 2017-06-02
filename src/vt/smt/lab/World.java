@@ -1,5 +1,7 @@
 package vt.smt.lab;
 
+import javafx.scene.shape.Rectangle;
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
@@ -10,6 +12,10 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 import java.nio.file.Paths;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by semitro on 05.05.17.
@@ -29,13 +35,18 @@ public class World implements RightFlagOwner, Restartable{
     private SettingsButton settingsButton;
     private FrictionButton frictionButton;
     private AngleButton angleButton;
+    private ClearButton clearButton;
     //Счётчик значений для таблицы
     private ResultCounter resultCounter = new ResultCounter();
+    private Speedometr speedometr;
     private SaveResultButton saveButton;
+    private InboundedPlot speedPlot;
+    private InboundedPlot postionPlot;
+
     public World(){
         window = new RenderWindow(new VideoMode(900,500),"Качение тележки с учётом трения");
-        board = new Board(new Vector2f(0,270),980,80,(float)Math.toDegrees(Math.asin(1/66.0)));
-        bogie = new Bogie(new Vector2f(15,50),100,40,(float)Math.toDegrees(Math.asin(1/66.0)));
+        board = new Board(new Vector2f(0,270),980,80,0.75f);
+        bogie = new Bogie(new Vector2f(15,50),100,40,0.75f);
         // Позиция доски там адекватно устанавливается
         this.restart();
         restartButton = new RestartButton(new Vector2f( window.getView().getSize().x - 75, 210),this);
@@ -44,6 +55,12 @@ public class World implements RightFlagOwner, Restartable{
         settingsButton = new SettingsButton(new Vector2f(window.getView().getSize().x - 75,10),bogie);
         frictionButton = new FrictionButton(new Vector2f(window.getView().getSize().x - 75 + 32 , 77 + 32),board);
         angleButton = new AngleButton(new Vector2f(window.getView().getSize().x - 75, 144),board);
+
+        speedometr = new Speedometr(new Vector2f(40,20),bogie,board);
+        speedPlot = new InboundedPlot(window,new Rectangle(200,60,220,145),2,10);
+        postionPlot = new InboundedPlot(window,new Rectangle(444,60,220,145),2,10);
+        clearButton = new ClearButton(new Vector2f(window.getView().getSize().x - 150, 10),speedPlot,postionPlot);
+
         try {
             Texture t = new Texture();
             t.loadFromFile(Paths.get("img/fone.jpg"));
@@ -53,7 +70,14 @@ public class World implements RightFlagOwner, Restartable{
             e.printStackTrace();
             System.out.println("Не удалось загрузить главынй фон окна");
         }
-
+        ScheduledExecutorService plotUpdater = Executors.newScheduledThreadPool(1);
+        // Обновление точек графика
+        plotUpdater.scheduleAtFixedRate(()->{
+                    speedPlot.add(currentTime,PhysicalEngine.getSpeed(bogie,board,currentTime,0));
+                    postionPlot.add(currentTime,(float)PhysicalEngine.getPosition(bogie,board,currentTime,0f));
+        },
+        50, 75, TimeUnit.MILLISECONDS
+        );
     }
 
     public void run(){
@@ -89,7 +113,12 @@ public class World implements RightFlagOwner, Restartable{
         else
         if(event.type.equals(Event.Type.MOUSE_BUTTON_PRESSED)) {
             if (restartButton.getSprite().getGlobalBounds().contains(Mouse.getPosition(window).x, Mouse.getPosition(window).y)) {
-                restartButton.call();}
+                Random r = new Random(System.currentTimeMillis());
+                Color newColor = new Color(r.nextInt()%255,r.nextInt()%255,r.nextInt()%255);
+                speedPlot.setColor(newColor);
+                postionPlot.setColor(newColor);
+                restartButton.call();
+            }
 //            else
 //            	if(plotButton.getSprite().getGlobalBounds().contains(Mouse.getPosition(window).x,Mouse.getPosition(window).y)){
 //            		plotButton.call();
@@ -101,6 +130,9 @@ public class World implements RightFlagOwner, Restartable{
             	else
             	    if(frictionButton.getSprite().getGlobalBounds().contains(Mouse.getPosition(window).x,Mouse.getPosition(window).y))
             	        frictionButton.call();
+            	else
+            	    if(clearButton.getSprite().getGlobalBounds().contains(Mouse.getPosition(window).x,Mouse.getPosition(window).y))
+            	        clearButton.call();
             	else
                     if(angleButton.getSprite().getGlobalBounds().contains(Mouse.getPosition(window).x,Mouse.getPosition(window).y))
                         angleButton.call();
@@ -129,15 +161,20 @@ public class World implements RightFlagOwner, Restartable{
 
     private void update(float deltaTime){
         engine.update(bogie,board,deltaTime);
-    	if(bogie.getSprite().getPosition().x + bogie.getSprite().getLocalBounds().width < this.window.getSize().x)
+//    	if(bogie.getSprite().getPosition().x + bogie.getSprite().getLocalBounds().width < this.window.getSize().x)
 			bogie.update(deltaTime,board);
         board.update(currentTime);
 
         mainClock.update(currentTime);
         frictionButton.getSprite().rotate(0.5f);
+        speedometr.update(currentTime);
+
     }
     private void render(){
         window.draw(fone);
+        speedPlot.draw();
+        postionPlot.draw();
+        speedometr.draw(window);
        //(board.mainClock.draw(window);
         board.render(window);
         bogie.render(window);
@@ -146,6 +183,7 @@ public class World implements RightFlagOwner, Restartable{
        // saveButton.render(window);
         frictionButton.render(window);
         settingsButton.render(window);
+        clearButton.render(window);
         angleButton.render(window);
     }
 }

@@ -1,9 +1,11 @@
 package vt.smt.lab;
 
-import org.jsfml.graphics.*;
+import org.jsfml.graphics.Color;
+import org.jsfml.graphics.Font;
+import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.Text;
 import org.jsfml.system.Vector2f;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 
 /**
@@ -45,7 +47,11 @@ public class Timer {
         }
     }
     protected String getTimeView(float time){
-        return (String) (Float.toString(time)).subSequence(0, 5);
+        try {
+            return (String) (Float.toString(time)).subSequence(0, 5);
+        }catch (IndexOutOfBoundsException e){
+            return Float.toString(time);
+        }
     }
     public void stop(){
         wasStopped = true;

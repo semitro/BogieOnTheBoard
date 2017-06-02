@@ -7,22 +7,22 @@ import org.jsfml.window.Mouse;
 public class SettingsButton extends vt.smt.lab.Button {
     private Bogie bogie;
     public SettingsButton(Vector2f position, Bogie bogie){
-        super(position,"img/weight.png");
-        commitButton.setText("Установить вес!");
+        super(position,"img/gravity.png");
+        commitButton.setText("Установить ускорение свободного падения!");
 
         this.bogie = bogie;
-        frame.setTitle("Введите массу тележки (в кг)");
+        frame.setTitle("Желаете изменить ускорение свободного падения?");
 
     }
 
     public void call(){
-        dataTextArea.setText(Float.toString(bogie.getWeight()));
+        dataTextArea.setText(Float.toString(Transformer.g));
         frame.setLocation(Mouse.getPosition().x, Mouse.getPosition().y);
         frame.toFront();
         commitButton.addActionListener(e->{
             try {
-                float weight = Float.parseFloat(dataTextArea.getText());
-                bogie.setWeight(weight);
+                Transformer.g = Float.parseFloat(
+                        dataTextArea.getText());
             }catch (Exception parseException){
                 parseException.printStackTrace();
             }

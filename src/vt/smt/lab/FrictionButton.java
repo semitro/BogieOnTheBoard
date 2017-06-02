@@ -15,7 +15,7 @@ public class FrictionButton extends vt.smt.lab.Button {
     }
     @Override
     public void call() {
-        dataTextArea.setText(Float.toString(frictionObj.getWeight()));
+        dataTextArea.setText(Float.toString(frictionObj.getFrictionCoefficient()));
         frame.setLocation(Mouse.getPosition().x, Mouse.getPosition().y);
         commitButton.addActionListener(e->{
             try {
