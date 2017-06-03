@@ -40,7 +40,7 @@ public class Timer {
         if(wasStopped)
             return;
         try{
-        time.setString(getTimeView(currentTime));
+        time.setString(getTimeView(currentTime) + "с") ;
        // time.move(new Vector2f(0.01f,-0.1f));
         }catch(Exception e){
         	//e.printStackTrace();

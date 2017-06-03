@@ -25,7 +25,7 @@ public class World implements RightFlagOwner, Restartable{
     private Sprite fone;
     private Board board;
     private Bogie bogie;
-    private Timer mainClock = new Timer(new Vector2f(530,320));
+    private Timer mainClock = new Timer(new Vector2f(490,12));
     private Flag rightFlag, leftFlag;
     static final float g = 9.81908f;
     private PhysicalEngine engine = new PhysicalEngine();
@@ -56,9 +56,11 @@ public class World implements RightFlagOwner, Restartable{
         frictionButton = new FrictionButton(new Vector2f(window.getView().getSize().x - 75 + 32 , 77 + 32),board);
         angleButton = new AngleButton(new Vector2f(window.getView().getSize().x - 75, 144),board);
 
-        speedometr = new Speedometr(new Vector2f(40,20),bogie,board);
-        speedPlot = new InboundedPlot(window,new Rectangle(200,60,220,145),2,10);
+        speedometr = new Speedometr(new Vector2f(40,12),bogie,board);
+        speedPlot = new InboundedPlot(window,new Rectangle(180,60,220,145),2,10);
+        speedPlot.setOyString("u,м/с");
         postionPlot = new InboundedPlot(window,new Rectangle(444,60,220,145),2,10);
+        postionPlot.setOyString("s,м");
         clearButton = new ClearButton(new Vector2f(window.getView().getSize().x - 150, 10),speedPlot,postionPlot);
 
         try {
@@ -176,6 +178,7 @@ public class World implements RightFlagOwner, Restartable{
         postionPlot.draw();
         speedometr.draw(window);
        //(board.mainClock.draw(window);
+        mainClock.draw(window);
         board.render(window);
         bogie.render(window);
         restartButton.render(window);

@@ -2,12 +2,11 @@ package vt.smt.lab;
 
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
-import org.jsfml.graphics.CircleShape;
-import org.jsfml.graphics.Color;
-import org.jsfml.graphics.RectangleShape;
-import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +24,9 @@ public class InboundedPlot implements Clearable{
     private float oneMetrInPixels;
     private float oneSecondInPixels;
     private float space = 20;
+    // Подписи осей
+    private Text oxString;
+    private Text oyString;
     public InboundedPlot(RenderWindow w, Rectangle plotArea, float maxTime, float maxU){
         this.window = w;
         this.plotArea = plotArea;
@@ -32,9 +34,27 @@ public class InboundedPlot implements Clearable{
         this.maxU = maxU;
         pointModel = new CircleShape(1);
         oneMetrInPixels = space/ maxU;
-        oneSecondInPixels = space/maxTime;
+        oneSecondInPixels = space/ maxTime;
         resetChangleColor();
+        Font f = new Font();
+        try {
+            f.loadFromFile(Paths.get("img/font.ttf"));
+        }catch (IOException e){
+            e.printStackTrace();
+            System.out.println("Не удалось загрузить шрифт img/font.ttf");
+        }
+        oxString = new Text("t,c",f);
+        oyString = new Text("",f);
+        oyString.setScale(0.7f,0.7f);
+        oxString.setScale(0.7f,0.7f);
+        oxString.setPosition(
+                new Vector2f((float)(plotArea.getX() + plotArea.getWidth() + 1),
+                        (float)plotArea.getY() + (float)plotArea.getHeight()));
+        oyString.setPosition(
+                new Vector2f((float)(plotArea.getX() - 1),
+                             (float)plotArea.getY()));
     }
+
     public void clear(){
         resetChangleColor();
         points.clear();
@@ -60,6 +80,18 @@ public class InboundedPlot implements Clearable{
         this.oneMetrInPixels = oneMetrInPixels;
     }
 
+
+    public void setOxString(String oxString) {
+        this.oxString.setString(oxString);
+    }
+
+
+    public void setOyString(String oyString) {
+        this.oyString.setString(oyString);
+        this.oyString.setPosition(this.oyString.getPosition().x - this.oyString.getGlobalBounds().width,
+                                     this.oyString.getPosition().y);
+    }
+
     public float getOneSecondInPixels() {
         return oneSecondInPixels;
     }
@@ -70,6 +102,7 @@ public class InboundedPlot implements Clearable{
 
     public void draw(){
         drawGrid(space);
+        drawAxles();
         int nextColor = 0;
         for(int i = 0; i< points.size();i++){
             Vector2f currentPoint = points.get(i);
@@ -82,6 +115,11 @@ public class InboundedPlot implements Clearable{
                     (float)(plotArea.getY() + plotArea.getHeight() - currentPoint.y*oneSecondInPixels));
             window.draw(pointModel);
         }
+
+    }
+    private void drawAxles(){
+        window.draw(oxString);
+        window.draw(oyString);
     }
     private void drawGrid(float space){
         RectangleShape rect = new RectangleShape();
